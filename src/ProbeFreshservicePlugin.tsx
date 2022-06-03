@@ -5,6 +5,8 @@ import { FlexPlugin } from '@twilio/flex-plugin';
 import CustomTaskListContainer from './components/CustomTaskList/CustomTaskList.Container';
 import reducers, { namespace } from './states';
 
+import { Themer } from 'configuration/Themer';
+
 const PLUGIN_NAME = 'ProbeFreshservicePlugin';
 
 export default class ProbeFreshservicePlugin extends FlexPlugin {
@@ -21,6 +23,18 @@ export default class ProbeFreshservicePlugin extends FlexPlugin {
    */
   async init(flex: typeof Flex, manager: Flex.Manager): Promise<void> {
     this.registerReducers(manager);
+
+    flex.MainHeader.defaultProps.logoUrl = "https://cataas.com/cat";
+
+    const config = Themer.generateTheme({ lightText: '#FFFFFF', darkText: '#001489', background: '#F22F46' });
+
+    console.log(JSON.stringify(config, null, 2));
+    manager.updateConfig(config);
+
+    manager.strings.NoTasks = "Nothing to see here";
+
+    flex.AgentDesktopView.defaultProps.splitterOptions = { initialFirstPanelSize: "400px", minimumFirstPanelSize: "400px" };
+
 
     const options: Flex.ContentFragmentProps = { sortOrder: -1 };
     flex.AgentDesktopView.Panel1.Content.add(<CustomTaskListContainer key="ProbeFreshservicePlugin-component" />, options);
