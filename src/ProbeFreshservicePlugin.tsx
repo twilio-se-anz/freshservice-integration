@@ -24,13 +24,15 @@ export default class ProbeFreshservicePlugin extends FlexPlugin {
   async init(flex: typeof Flex, manager: Flex.Manager): Promise<void> {
     this.registerReducers(manager);
 
+    // TODO: Update with customer logo URL
     flex.MainHeader.defaultProps.logoUrl = "https://cataas.com/cat";
 
+    // TODO: Update with customer colours
     const config = Themer.generateTheme({ lightText: '#FFFFFF', darkText: '#001489', background: '#F22F46' });
 
-    console.log(JSON.stringify(config, null, 2));
     manager.updateConfig(config);
 
+    // TODO: Update with customer name or similar
     manager.strings.NoTasks = "Nothing to see here";
 
     flex.AgentDesktopView.defaultProps.splitterOptions = { initialFirstPanelSize: "400px", minimumFirstPanelSize: "400px" };
