@@ -2,7 +2,6 @@ import React from 'react';
 import * as Flex from '@twilio/flex-ui';
 import { FlexPlugin } from '@twilio/flex-plugin';
 
-import CustomTaskListContainer from './components/CustomTaskList/CustomTaskList.Container';
 import reducers, { namespace } from './states';
 
 import { Themer } from 'configuration/Themer';
@@ -37,9 +36,8 @@ export default class ProbeFreshservicePlugin extends FlexPlugin {
 
     flex.AgentDesktopView.defaultProps.splitterOptions = { initialFirstPanelSize: "400px", minimumFirstPanelSize: "400px" };
 
+    flex.AgentDesktopView.defaultProps.showPanel2 = false;
 
-    const options: Flex.ContentFragmentProps = { sortOrder: -1 };
-    flex.AgentDesktopView.Panel1.Content.add(<CustomTaskListContainer key="ProbeFreshservicePlugin-component" />, options);
   }
 
   /**
