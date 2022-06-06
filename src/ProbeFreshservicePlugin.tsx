@@ -4,7 +4,9 @@ import { FlexPlugin } from '@twilio/flex-plugin';
 
 import reducers, { namespace } from './states';
 
-import { Themer } from 'configuration/Themer';
+import { Themer } from './configuration/Themer';
+import TranscriptInfoPanel from './components/TansciptInfoPanel/TranscriptInfoPanel';
+import { ReservationStatuses } from '@twilio/flex-ui';
 
 const PLUGIN_NAME = 'ProbeFreshservicePlugin';
 
@@ -23,6 +25,12 @@ export default class ProbeFreshservicePlugin extends FlexPlugin {
   async init(flex: typeof Flex, manager: Flex.Manager): Promise<void> {
     this.registerReducers(manager);
 
+    manager.workerClient.on("reservationCreated", (reservation: TaskRouter.Reservation) => {
+      console.log(reservation);
+      // axios.get(twilio function, callSid)
+      // save it to pass to new info panel
+    })
+
     // TODO: Update with customer logo URL
     flex.MainHeader.defaultProps.logoUrl = "https://cataas.com/cat";
 
@@ -38,6 +46,7 @@ export default class ProbeFreshservicePlugin extends FlexPlugin {
 
     flex.AgentDesktopView.defaultProps.showPanel2 = false;
 
+    flex.TaskInfoPanel.Content.replace(<TranscriptInfoPanel key="TranscriptInfoPanel1" />);
   }
 
   /**
