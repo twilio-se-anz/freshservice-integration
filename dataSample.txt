@@ -1,0 +1,23 @@
+{ 
+  transcript: 'my laptops broken',
+  recognisedText: 'my laptops broken', 
+  skillName: '',
+  transferDestination: '',
+  transferType: '',
+  intent: '',
+  intents: '', 
+  info01: '',
+  info02: '', 
+  info03: '',
+  department: '',
+  fullName: '',
+  topic: '', 
+  location: ''
+}
+
+
+HIGH PRIORITY
+NEW INCIDENT
+NEW SERVICE REQUEST
+EXISTING CASE
+ESCALATION
