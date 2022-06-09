@@ -25,28 +25,46 @@ export default class ProbeFreshservicePlugin extends FlexPlugin {
   async init(flex: typeof Flex, manager: Flex.Manager): Promise<void> {
     this.registerReducers(manager);
 
-    manager.workerClient.on("reservationCreated", (reservation: TaskRouter.Reservation) => {
-      console.log(reservation);
-      // axios.get(twilio function, callSid)
-      // save it to pass to new info panel
-    })
-
     // TODO: Update with customer logo URL
-    flex.MainHeader.defaultProps.logoUrl = "https://cataas.com/cat";
+    flex.MainHeader.defaultProps.logoUrl = "https://www.probegroup.com.au/hs-fs/hubfs/PROBEcx_2021_logo.png?width=207&height=63&name=PROBEcx_2021_logo.png";
 
     // TODO: Update with customer colours
-    const config = Themer.generateTheme({ lightText: '#FFFFFF', darkText: '#001489', background: '#F22F46' });
+    const config = Themer.generateTheme({ lightText: '#FFFFFF', darkText: '#5936EC', background: '#D88738' });
 
     manager.updateConfig(config);
 
     // TODO: Update with customer name or similar
-    manager.strings.NoTasks = "Nothing to see here";
+    manager.strings.NoTasks = "Probe IT";
 
+    // Set width width to 400px, works well as a phone panel in an iFrame
     flex.AgentDesktopView.defaultProps.splitterOptions = { initialFirstPanelSize: "400px", minimumFirstPanelSize: "400px" };
 
     flex.AgentDesktopView.defaultProps.showPanel2 = false;
 
+    // Use our custom Info panel
     flex.TaskInfoPanel.Content.replace(<TranscriptInfoPanel key="TranscriptInfoPanel1" />);
+
+    // Send messages to Freshservice
+    // Show Flex when we are assigned a new task
+    manager.workerClient.on("reservationCreated", function (reservation) {
+      console.log('onReservationCreated: show softphone')
+      window.parent.postMessage({ action: "show_softphone" }, '*');
+    });
+
+    // Screenpop Freshservice if we know the ticket or contact
+    // This depends on Studio adding an attribute for 'ticketId' and/or 'requesterId'
+    flex.Actions.addListener('beforeAcceptTask', (payload) => {
+      let ticketId = payload.task.attributes.ticketId;
+      let requesterId = payload.task.attributes.requesterId;
+
+      console.log(`onBeforeAcceptTask - ticketId: ${ticketId}, requesterId: ${requesterId}`);
+
+      if (ticketId) {
+        window.parent.postMessage({ action: "open_ticket", value: ticketId }, '*');
+      } else if (requesterId) {
+        window.parent.postMessage({ action: "open_contact", value: requesterId }, '*');
+      }
+    });
   }
 
   /**
