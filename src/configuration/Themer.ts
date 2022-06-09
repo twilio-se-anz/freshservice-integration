@@ -24,18 +24,19 @@ export class Themer{
               background: background,
               lightHover: false
             }
-            
           },
+
           SideNav: {
             Container: {
-              background: "#59b6ec",
+              background: "#ebf3f5",
             },
             Button: {
-              background: "#59b6ec",
-              color: lightText
+              background: "#ebf3f5",
+              color: darkText,
+              lightHover: false
             },
             Icon: {
-              color: lightText
+              color: "#121829"
             }
           },
 
@@ -45,7 +46,7 @@ export class Themer{
               color: lightText,
             },
             EndTaskButton: {
-              background: darkText,
+              background: "#121829",
               color: lightText,
             }
           },
