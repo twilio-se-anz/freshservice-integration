@@ -16,25 +16,27 @@ export class Themer{
         overrides: {
           MainHeader: {
             Container: {
-              color: lightText,
-              background: background,
+              color: background,
+              background: lightText,
             },
             Button: {
               color: lightText,
               background: background,
+              lightHover: false
             }
           },
-        
+
           SideNav: {
             Container: {
-              background: darkText,
+              background: "#ebf3f5",
             },
             Button: {
-              background: darkText,
-              color: lightText
+              background: "#ebf3f5",
+              color: darkText,
+              lightHover: false
             },
             Icon: {
-              color: lightText
+              color: "#121829"
             }
           },
 
@@ -44,7 +46,7 @@ export class Themer{
               color: lightText,
             },
             EndTaskButton: {
-              background: darkText,
+              background: "#121829",
               color: lightText,
             }
           },

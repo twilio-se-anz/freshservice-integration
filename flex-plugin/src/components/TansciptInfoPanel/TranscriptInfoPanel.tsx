@@ -29,7 +29,7 @@ class TranscriptInfoPanel extends Component<unknown> {
         <List >
           <ListItem alignItems='flex-start'>
             <ListItemAvatar>
-              <Avatar>
+              <Avatar style={{ background: '#D88738' }}>
                 <TimerIcon />
               </Avatar>
             </ListItemAvatar>
@@ -51,7 +51,7 @@ class TranscriptInfoPanel extends Component<unknown> {
           <Divider inset />
           <ListItem alignItems='flex-start'>
             <ListItemAvatar>
-              <Avatar>
+              <Avatar style={{ background: '#D88738' }}>
                 <BugReportIcon />
               </Avatar>
             </ListItemAvatar>
@@ -73,7 +73,7 @@ class TranscriptInfoPanel extends Component<unknown> {
           <Divider inset />
           <ListItem alignItems='flex-start'>
             <ListItemAvatar>
-              <Avatar>
+              <Avatar style={{ background: '#D88738' }}>
                 <InputIcon />
               </Avatar>
             </ListItemAvatar>
@@ -95,7 +95,7 @@ class TranscriptInfoPanel extends Component<unknown> {
           <Divider inset />
           <ListItem alignItems='flex-start'>
             <ListItemAvatar>
-              <Avatar>
+              <Avatar style={{ background: '#D88738' }}>
                 <QueueIcon />
               </Avatar>
             </ListItemAvatar>
@@ -117,7 +117,7 @@ class TranscriptInfoPanel extends Component<unknown> {
           <Divider inset />
           <ListItem alignItems='flex-start'>
             <ListItemAvatar>
-              <Avatar>
+              <Avatar style={{ background: '#D88738' }}>
                 <RecordVoiceOverIcon />
               </Avatar>
             </ListItemAvatar>
