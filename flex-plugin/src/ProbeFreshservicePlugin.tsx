@@ -40,6 +40,7 @@ export default class ProbeFreshservicePlugin extends FlexPlugin {
     flex.AgentDesktopView.defaultProps.splitterOptions = { initialFirstPanelSize: "400px", minimumFirstPanelSize: "400px" };
 
     flex.AgentDesktopView.defaultProps.showPanel2 = false;
+    flex.RootContainer.Content.remove("project-switcher");
 
     // Use our custom Info panel
     flex.TaskInfoPanel.Content.replace(<TranscriptInfoPanel key="TranscriptInfoPanel1" />);
@@ -51,18 +52,14 @@ export default class ProbeFreshservicePlugin extends FlexPlugin {
       window.parent.postMessage({ action: "show_softphone" }, '*');
     });
 
-    // Screenpop Freshservice if we know the ticket or contact
-    // This depends on Studio adding an attribute for 'ticketId' and/or 'requesterId'
+    // Screenpop Freshservice if we know the ticket number from Oration
     flex.Actions.addListener('beforeAcceptTask', (payload) => {
-      let ticketId = payload.task.attributes.ticketId;
-      let requesterId = payload.task.attributes.requesterId;
+      let ticketId = payload.task.attributes.orationrefNum;
 
-      console.log(`onBeforeAcceptTask - ticketId: ${ticketId}, requesterId: ${requesterId}`);
+      console.log(`onBeforeAcceptTask - ticketId: ${ticketId}`);
 
       if (ticketId) {
         window.parent.postMessage({ action: "open_ticket", value: ticketId }, '*');
-      } else if (requesterId) {
-        window.parent.postMessage({ action: "open_contact", value: requesterId }, '*');
       }
     });
   }
