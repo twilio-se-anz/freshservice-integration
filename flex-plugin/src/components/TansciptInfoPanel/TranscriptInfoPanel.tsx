@@ -23,32 +23,23 @@ class TranscriptInfoPanel extends Component<unknown> {
 
   render() {
     const { task } = this.props as TaskContextProps;
+    let transcription: string[] | null = null;
+
+    // Transform the transcription if there is one
+    if (task?.attributes.orationTranscript) {
+      // Transcription is a string of responses separated by pipe. i.e.: 'can't connect to network | sydney'
+      const rawPhrases: string[] = task?.attributes.orationTranscript.split('|');
+
+      // Strip the spaces, upper the first letter, add full stop.
+      transcription = rawPhrases.map(phrase => {
+        let tmpPhrase = phrase.trim();
+        return tmpPhrase.charAt(0).toUpperCase() + tmpPhrase.slice(1) + '.';
+      });
+    }
 
     return (
       <>
         <List >
-          <ListItem alignItems='flex-start'>
-            <ListItemAvatar>
-              <Avatar style={{ background: '#D88738' }}>
-                <TimerIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary={
-                <React.Fragment>
-                  <Typography variant='overline' color="textPrimary">
-                    Time in Queue
-                  </Typography>
-                </React.Fragment>}
-              secondary={
-                <React.Fragment>
-                  <Typography variant='caption' color="textSecondary">
-                    2 minutes
-                  </Typography>
-                </React.Fragment>}
-            />
-          </ListItem>
-          <Divider inset />
           <ListItem alignItems='flex-start'>
             <ListItemAvatar>
               <Avatar style={{ background: '#D88738' }}>
@@ -57,20 +48,21 @@ class TranscriptInfoPanel extends Component<unknown> {
             </ListItemAvatar>
             <ListItemText
               primary={
-                <React.Fragment>
+                <>
                   <Typography variant='overline' color="textPrimary">
                     Ticket Number
                   </Typography>
-                </React.Fragment>}
+                </>}
               secondary={
-                <React.Fragment>
+                <>
                   <Typography variant='caption' color="textSecondary">
-                    {task?.attributes.refNum || 'Ticket number unknown'}
+                    {task?.attributes.orationrefNum || 'Ticket number unknown'}
                   </Typography>
-                </React.Fragment>}
+                </>}
             />
           </ListItem>
-          <Divider inset />
+          <Divider variant='inset' />
+
           <ListItem alignItems='flex-start'>
             <ListItemAvatar>
               <Avatar style={{ background: '#D88738' }}>
@@ -79,20 +71,21 @@ class TranscriptInfoPanel extends Component<unknown> {
             </ListItemAvatar>
             <ListItemText
               primary={
-                <React.Fragment>
+                <>
                   <Typography variant='overline' color="textPrimary">
                     Input method
                   </Typography>
-                </React.Fragment>}
+                </>}
               secondary={
-                <React.Fragment>
+                <>
                   <Typography variant='caption' color="textSecondary">
-                    Voice Recognition
+                    {task?.attributes.orationHandler === "TRUE" ? "Voice Recognition" : "Keypad"}
                   </Typography>
-                </React.Fragment>}
+                </>}
             />
           </ListItem>
-          <Divider inset />
+          <Divider variant='inset' />
+
           <ListItem alignItems='flex-start'>
             <ListItemAvatar>
               <Avatar style={{ background: '#D88738' }}>
@@ -101,20 +94,21 @@ class TranscriptInfoPanel extends Component<unknown> {
             </ListItemAvatar>
             <ListItemText
               primary={
-                <React.Fragment>
+                <>
                   <Typography variant='overline' color="textPrimary">
                     Queue Requested
                   </Typography>
-                </React.Fragment>}
+                </>}
               secondary={
-                <React.Fragment>
+                <>
                   <Typography variant='caption' color="textSecondary">
-                    {task?.attributes.topic || 'Queue unknown'}
+                    {task?.attributes.orationTopic || 'Queue unknown'}
                   </Typography>
-                </React.Fragment>}
+                </>}
             />
           </ListItem>
-          <Divider inset />
+          <Divider variant='inset' />
+
           <ListItem alignItems='flex-start'>
             <ListItemAvatar>
               <Avatar style={{ background: '#D88738' }}>
@@ -123,17 +117,17 @@ class TranscriptInfoPanel extends Component<unknown> {
             </ListItemAvatar>
             <ListItemText
               primary={
-                <React.Fragment>
+                <>
                   <Typography variant='overline' color="textPrimary">
                     Transcript
                   </Typography>
-                </React.Fragment>}
+                </>}
               secondary={
-                <React.Fragment>
+                <>
                   <Typography variant='caption' color="textSecondary">
-                    {task?.attributes.transcript || 'Transcript not available'}
+                    {transcription?.map((phrase, index) => <span key={index}>{phrase}<br></br></span>) || 'Transcript not available'}
                   </Typography>
-                </React.Fragment>}
+                </>}
             />
           </ListItem>
         </List>
