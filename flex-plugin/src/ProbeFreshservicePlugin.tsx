@@ -53,13 +53,15 @@ export default class ProbeFreshservicePlugin extends FlexPlugin {
     });
 
     // Screenpop Freshservice if we know the ticket number from Oration
-    flex.Actions.addListener('beforeAcceptTask', (payload) => {
+    flex.Actions.addListener('afterAcceptTask', (payload) => {
       let ticketId = payload.task.attributes.orationrefNum;
 
-      console.log(`onBeforeAcceptTask - ticketId: ${ticketId}`);
+      console.log(`onAfterAcceptTask - ticketId: ${ticketId}`);
 
       if (ticketId) {
         window.parent.postMessage({ action: "open_ticket", value: ticketId }, '*');
+      } else {
+        window.parent.postMessage({ action: "open_ticket", value: 'new' }, '*');
       }
     });
   }
