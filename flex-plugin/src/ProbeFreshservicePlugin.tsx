@@ -6,7 +6,6 @@ import reducers, { namespace } from './states';
 
 import { Themer } from './configuration/Themer';
 import TranscriptInfoPanel from './components/TansciptInfoPanel/TranscriptInfoPanel';
-import { ReservationStatuses } from '@twilio/flex-ui';
 
 const PLUGIN_NAME = 'ProbeFreshservicePlugin';
 

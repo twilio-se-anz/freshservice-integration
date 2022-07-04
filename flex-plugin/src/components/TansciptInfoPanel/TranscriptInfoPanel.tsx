@@ -9,7 +9,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 
-import TimerIcon from '@material-ui/icons/Timer';
 import QueueIcon from '@material-ui/icons/Queue';
 import BugReportIcon from '@material-ui/icons/BugReport';
 import InputIcon from '@material-ui/icons/Input';
