@@ -6,7 +6,7 @@ import reducers, { namespace } from './states';
 
 import { Themer } from './configuration/Themer';
 import TranscriptInfoPanel from './components/TansciptInfoPanel/TranscriptInfoPanel';
-import { ReservationStatuses } from '@twilio/flex-ui';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const PLUGIN_NAME = 'ProbeFreshservicePlugin';
 
@@ -52,17 +52,32 @@ export default class ProbeFreshservicePlugin extends FlexPlugin {
       window.parent.postMessage({ action: "show_softphone" }, '*');
     });
 
-    // Screenpop Freshservice if we know the ticket number from Oration
+    // Screenpop Freshservice if we know the ticket number from Oration and it exists in Freshservice
     flex.Actions.addListener('afterAcceptTask', (payload) => {
       let ticketId = payload.task.attributes.orationrefNum;
 
       console.log(`onAfterAcceptTask - ticketId: ${ticketId}`);
 
+      let screenpopValue = 'new'; // default is open new ticket screen
+
+      // Check if ticket exists in Freshservice
       if (ticketId) {
-        window.parent.postMessage({ action: "open_ticket", value: ticketId }, '*');
-      } else {
-        window.parent.postMessage({ action: "open_ticket", value: 'new' }, '*');
+        // Function base URL should probably be a task attribute
+        const url = `https://freshservice-7858-dev.twil.io/getTicket?ticketId=${ticketId.trim()}`;
+
+        const config: AxiosRequestConfig = {
+          timeout: 2000
+        };
+
+        // Set screenpopValue to the ticket.id if it exists
+        axios.get(url, config)
+          .then(response => screenpopValue = response.data.id)
+          .catch(reason => console.log('ticket not found', reason));
       }
+
+      // Screenpop Freshservice
+      console.log(`Freshservice screenpop ticket: ${screenpopValue}`);
+      window.parent.postMessage({ action: "open_ticket", value: screenpopValue }, '*');
     });
   }
 
